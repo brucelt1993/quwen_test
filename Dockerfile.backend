@@ -1,0 +1,23 @@
+# 后端 Dockerfile
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# 安装 uv
+RUN pip install uv
+
+# 复制依赖文件
+COPY backend/requirements.txt .
+
+# 安装依赖
+RUN uv pip install --system -r requirements.txt
+
+# 复制后端代码
+COPY backend/ ./backend/
+COPY .env .env
+
+# 暴露端口
+EXPOSE 8000
+
+# 启动命令
+CMD ["python", "-m", "backend.main"]
